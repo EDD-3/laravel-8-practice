@@ -13,13 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home.index');
-})->name('home.index');
+// Route::get('/', function () {
+//     return view('home.index');
+// })->name('home.index');
 
-Route::get('/contact', function (){
-    return view('home.contact');
-})->name('home.contact');
+// Route::get('/contact', function (){
+//     return view('home.contact');
+// })->name('home.contact');
+
+Route::view('/', 'home.index')->name('home.index');
+
+Route::view('/contact', 'home.contact')->name('home.contact');
 
 Route::get('/posts/{id}', function ($id) {
     $post = [
@@ -37,9 +41,7 @@ Route::get('/posts/{id}', function ($id) {
         abort_if(!isset($post[$id]), 404);
 
     return view('posts.show', ['post' => $post[$id]]);
-
     
-
 })->name('posts.show');
 // ->where([
 //     'id'=> '[0-9]+'
