@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,86 +31,71 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact')
 
 Route::get('/single', AboutController::class);
 
-$posts = [
-    1 => [
-        'title' => 'Intro to Laravel',
-        'content' => 'This is a short intro to Laravel',
-        'is_new' => true,
-        'has_comments'=>true
-    ],
 
-    2 => [
-        'title' => 'Intro to PHP',
-        'content' => 'This is a short intro to PHP',
-        'is_new' => false
-    ],
+    Route::resource('posts', PostsController::class);
+    // ->except(['index','show']); remove methods of you choosing
+    // ->only(['index','show']); to limit methods of you choosing
 
-    3 => [
-        'title' => 'Intro to Golang',
-        'content' => 'This is a short intro to Golang',
-        'is_new' => false
-    ]
-    ];
+// Route::prefix('/posts')->group( function () use ($posts) {
 
+//     Route::get('/', function () use ($posts){
 
-Route::prefix('/posts')->group( function () use ($posts) {
+//         // dd(request()->all());
 
-    Route::get('/', function () use ($posts){
+//         dd((int)request()->input('page',1));
+//         dd((int)request()->query('page',5));
+//         // compact($posts) === ['posts' => $posts]
 
-        // dd(request()->all());
-        dd((int)request()->input('page',1));
-        dd((int)request()->query('page',5));
-        // compact($posts) === ['posts' => $posts]
-        return view('posts.index', ['posts' => $posts]);
-    })->name('posts');
+//         return view('posts.index', ['posts' => $posts]);
+//     })->name('posts');
     
-    Route::get('{id}', function ($id) use($posts) {
+//     Route::get('{id}', function ($id) use($posts) {
     
-            abort_if(!isset($posts[$id]), 404);
+//             abort_if(!isset($posts[$id]), 404);
     
-        return view('posts.show', ['post' => $posts[$id]]);
+//         return view('posts.show', ['post' => $posts[$id]]);
     
-    })->name('posts.show');
-    // ->where([
-    //     'id'=> '[0-9]+'
-    // ])
+//     })->name('posts.show');
+//     // ->where([
+//     //     'id'=> '[0-9]+'
+//     // ])
 
 
-});
+// });
 
 
-Route::get('/recent-posts/{days_ago?}', function ($daysAgo = 20) {
-    return 'Post from ' . $daysAgo;
-})->name('posts.recent.index')->middleware('auth');
+// Route::get('/recent-posts/{days_ago?}', function ($daysAgo = 20) {
+//     return 'Post from ' . $daysAgo;
+// })->name('posts.recent.index')->middleware('auth');
 
 
-Route::prefix('/fun')->name('fun.')->group(function() use($posts) {
-    Route::get('responses', function () use($posts) {
+// Route::prefix('/fun')->name('fun.')->group(function() use($posts) {
+//     Route::get('responses', function () use($posts) {
     
-        return response($posts, 201)
-        ->header('Content-Type', 'application/json')
-        ->cookie('MY_COOKIE','EDUARDO', 3600);
-    })->name('responses');
+//         return response($posts, 201)
+//         ->header('Content-Type', 'application/json')
+//         ->cookie('MY_COOKIE','EDUARDO', 3600);
+//     })->name('responses');
     
-    Route::get('redirect', function() {
-        return back();
-    })->name('redirect');
+//     Route::get('redirect', function() {
+//         return back();
+//     })->name('redirect');
     
-    Route::get('named-route', function() {
-        return redirect()->route('posts.show', ['id' => 1]);
-    })->name('named-route');
+//     Route::get('named-route', function() {
+//         return redirect()->route('posts.show', ['id' => 1]);
+//     })->name('named-route');
     
-    Route::get('away', function() {
-        return redirect()->away('https://google.com');
-    })->name('away');
+//     Route::get('away', function() {
+//         return redirect()->away('https://google.com');
+//     })->name('away');
     
-    Route::get('json', function()  use ($posts) {
-        return response()->json($posts);
-    })->name('json');
+//     Route::get('json', function()  use ($posts) {
+//         return response()->json($posts);
+//     })->name('json');
     
-    Route::get('download', function() {
-        return response()->download(public_path('/daniel.jpg', 'GetOutActor.jpg'));
-    })->name('download');
+//     Route::get('download', function() {
+//         return response()->download(public_path('/daniel.jpg', 'GetOutActor.jpg'));
+//     })->name('download');
     
-});
+// });
 
