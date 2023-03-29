@@ -31,8 +31,7 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact')
 
 Route::get('/single', AboutController::class);
 
-
-    Route::resource('posts', PostsController::class);
+Route::resource('posts', PostsController::class);
     // ->except(['index','show']); remove methods of you choosing
     // ->only(['index','show']); to limit methods of you choosing
 
