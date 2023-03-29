@@ -7,6 +7,14 @@
     <title>Laravel App @yield('title')</title>
 </head>
 <body>
-    @yield('content')
+    <div>
+        @if(session('status'))
+        <div style="background: green; color:white">
+            {{ session('status')}}
+        </div>
+        @endif
+        @yield('content')
+    </div>
+    
 </body>
 </html>
