@@ -1,15 +1,19 @@
-<div><input type="text" name="title"  value="{{ old('title', optional($post ?? null)->title )}}"></div>
+<div class="form-group">
+    <label for="title">Post title</label>
+    <input type="text" name="title" id="title" class="form-control" value="{{ old('title', optional($post ?? null)->title )}}"></div>
 @error('title')
-    <div> {{ $message }} </div>
+    <div class="alert alert-danger"> {{ $message }} </div>
 @enderror
-<div><textarea name="content" id="content" cols="30" rows="10">{{ old('content', optional($post ?? null)->content )}}</textarea></div>
+<div class="form-group">
+    <label for="content">Post content</label>
+    <textarea name="content" id="content" class="form-control" cols="30" rows="10">{{ old('content', optional($post ?? null)->content )}}</textarea></div>
 
 @if($errors->any())
-        <div>
-            <ul>
+        <div class="mb-3">
+            <ul class="list-group">
                 @foreach ($errors->all() as $error)
 
-                    <li>{{ $error }}</li>
+                    <li class="list-group-item list-group-item-danger">{{ $error }}</li>
 
                 @endforeach
 
