@@ -7,7 +7,7 @@
 @forelse ($posts as $key => $post)
     @include('posts.partials.post', [])
 @empty
-    <div><h1>No posts found!</h1></div> 
+    <div class="container"><h1>No posts found!</h1></div> 
 @endforelse
 
 @endsection
