@@ -81,7 +81,9 @@ class PostsController extends Controller
         //
         // $posts = BlogPost::all();
         // abort_if(!isset($posts[$id]), 404);
-        return view('posts.show', ['post' => BlogPost::findOrFail($id)]);
+        return view('posts.show', [
+            'post' => BlogPost::with('comments')->findOrFail($id)
+        ]);
     }
 
     /**
