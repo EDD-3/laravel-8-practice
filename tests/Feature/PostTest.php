@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\BlogPost;
+use App\Models\Comment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -22,7 +23,7 @@ class PostTest extends TestCase
         $response->assertSeeText('No posts found!');
     }
 
-    public function testSee1BlogPostWhenThereIs1()
+    public function testSee1BlogPostWhenThereIs1WithNoComments()
     {
 
         // Arrange 
@@ -38,6 +39,21 @@ class PostTest extends TestCase
         $this->assertDatabaseHas('blog_posts', [
             'title' => 'New title'
         ]);
+    }
+
+    public function testSee1BlogPostWithComments()
+    {
+        // Arrange 
+        $post = $this->createDummyBlogPost();
+        Comment::factory(4)->create([
+            'blog_post_id' => $post->id
+        ]);
+
+        // Act
+        $response = $this->get('/posts');
+
+        //Assert
+        $response->assertSeeText('4 comments');
     }
 
     public function testStoreValid()
@@ -111,9 +127,8 @@ class PostTest extends TestCase
         //Assert
         $this->assertEquals(session('status'), 'Blog post was delete!');
         $this->get("/posts")
-        ->assertStatus(200);
+            ->assertStatus(200);
         $this->assertDatabaseMissing('blog_posts', $post->getAttributes());
-
     }
 
     private function createDummyBlogPost(): BlogPost
@@ -123,6 +138,7 @@ class PostTest extends TestCase
         $post->content = 'Content of the blog post';
         $post->save();
 
+        return BlogPost::factory()->newPost()->create();
         return $post;
     }
 }
