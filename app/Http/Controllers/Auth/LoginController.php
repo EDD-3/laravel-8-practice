@@ -37,4 +37,10 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    //Use your own unique fields to log in on the login form
+    // public function username()
+    // {
+    //     return 'username';
+    // }
 }
