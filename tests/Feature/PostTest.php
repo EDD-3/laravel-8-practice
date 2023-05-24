@@ -10,6 +10,7 @@ use Tests\TestCase;
 
 class PostTest extends TestCase
 {
+    //We use this to refresh the dummy database
     use RefreshDatabase;
     /**
      * A basic feature test example.
@@ -58,10 +59,17 @@ class PostTest extends TestCase
 
     public function testStoreValid()
     {
+        //Creating the dummy user 
+        $user = $this->user();
+
         $params = [
             'title' => 'Valid title',
             'content' => 'At least 10 characters'
         ];
+
+        //We tell Laravel how to act/use that user
+        $this->actingAs($user);
+
         //Redirect succesful code 302 
         $this->post('/posts', $params)
             ->assertStatus(302)
@@ -76,8 +84,9 @@ class PostTest extends TestCase
             'title' => 'x',
             'content' => 'x'
         ];
-
-        $this->post('/posts', $params)
+        //Concise way of creating the dummy user
+        $this->actingAs($this->user())
+            ->post('/posts', $params)
             ->assertStatus(302)
             ->assertSessionHas('errors');
 
@@ -101,7 +110,8 @@ class PostTest extends TestCase
         ];
 
         //Act
-        $this->put("/posts/{$post->id}", $params)
+        $this->actingAs($this->user())
+            ->put("/posts/{$post->id}", $params)
             ->assertStatus(302)
             ->assertSessionHas('status');
 
@@ -120,7 +130,8 @@ class PostTest extends TestCase
         $post = $this->createDummyBlogPost();
         $this->assertDatabaseHas('blog_posts', $post->getAttributes());
         // Act
-        $this->delete("/posts/{$post->id}")
+        $this->actingAs($this->user())
+            ->delete("/posts/{$post->id}")
             ->assertStatus(302)
             ->assertSessionHas('status');
 
