@@ -26,7 +26,7 @@
             @else
                 {{-- User is logged in --}}
                 <a class="p-2 text-dark" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout </a>
+                    onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout ({{Auth::user()->name}})</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="post" style="display: none;">
                     @csrf
                 </form>
