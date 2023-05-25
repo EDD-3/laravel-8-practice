@@ -21,13 +21,13 @@ class BlogPost extends Model
     public static function boot() {
         parent::boot();
         
-        //Deleting model with relation
-        static::deleting(function (BlogPost $blogPost) {
-            //Accessing as a field not as a method
-            //This will delete all comments associated with this particular blogPost
-             $blogPost->comments()->delete();
+        // //Deleting model with relation
+        // static::deleting(function (BlogPost $blogPost) {
+        //     //Accessing as a field not as a method
+        //     //This will delete all comments associated with this particular blogPost
+        //      $blogPost->comments()->delete();
 
-        });
+        // });
     }
     
 }
