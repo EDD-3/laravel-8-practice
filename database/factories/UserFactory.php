@@ -30,4 +30,23 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
         ];
     }
+
+    //Model Factory State
+    public function newCustomUser()
+    {
+        return $this->state(function () {
+            return [
+                'name' => 'John Doe',
+                'email' => 'john@laravel.test',
+            ];
+        });
+    }
+
+    // Laravel 8.<
+    // $factory->state(App\User::class, 'john-doe', function (Fake $faker) {
+    //     return [
+    //         'title' => 'New title',
+    //     ];
+    // });
+
 }
