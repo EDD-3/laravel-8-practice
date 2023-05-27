@@ -42,11 +42,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function blogPosts () {
+    public function blogPosts()
+    {
         return $this->hasMany(BlogPost::class);
     }
 
-    public function scopeWithMostBlogPosts(Builder $query) {
+    public function scopeWithMostBlogPosts(Builder $query)
+    {
         return $query->withCount('blogPosts')->orderBy('blog_posts_count', 'desc');
+    }
+
+    public function scopeWithMostBlogPostsLastMonth(Builder $query)
+    {
+        return $query->withCount(['blogPosts' => function (Builder $query) {
+            $query->whereBetween(static::CREATED_AT, [now()->subMonths(1), now()]);
+         }])->has('blogPosts', '>=', 2)
+            ->orderBy('blog_posts_count', 'desc');
     }
 }
