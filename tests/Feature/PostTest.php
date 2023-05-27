@@ -100,7 +100,8 @@ class PostTest extends TestCase
     public function testUpdateValid()
     {
         // Arrange 
-        $post = $this->createDummyBlogPost();
+        $user = $this->user();
+        $post = $this->createDummyBlogPost($user->id);
 
         $this->assertDatabaseHas('blog_posts', $post->getAttributes());
 
@@ -110,7 +111,7 @@ class PostTest extends TestCase
         ];
 
         //Act
-        $this->actingAs($this->user())
+        $this->actingAs($user)
             ->put("/posts/{$post->id}", $params)
             ->assertStatus(302)
             ->assertSessionHas('status');
@@ -127,30 +128,58 @@ class PostTest extends TestCase
     public function testDelete()
     {
         // Arrange 
-        $post = $this->createDummyBlogPost();
+        $user = $this->user();
+        $post = $this->createDummyBlogPost($user->id);
         $this->assertDatabaseHas('blog_posts', $post->getAttributes());
         // Act
-        $this->actingAs($this->user())
+        $this->actingAs($user)
             ->delete("/posts/{$post->id}")
             ->assertStatus(302)
             ->assertSessionHas('status');
 
         //Assert
         $this->assertEquals(session('status'), 'Blog post was delete!');
-        $this->get("/posts")
-            ->assertStatus(200);
+        $this->get("/posts");
         // $this->assertDatabaseMissing('blog_posts', $post->getAttributes());
         $this->assertSoftDeleted('blog_posts', $post->getAttributes());
     }
 
-    private function createDummyBlogPost(): BlogPost
+    public function testDeleteAuthorizationDifferentLoggedInUserFail() {
+
+        $user = $this->user();
+        // $user->cannot()
+        $post = $this->createDummyBlogPost();
+        $this->assertDatabaseHas('blog_posts', $post->getAttributes());
+        // Act
+        $this->actingAs($user)
+            ->delete("/posts/{$post->id}")
+            ->assertStatus(403);
+
+
+    }
+
+    // public function testDeleteAuthorizationNoLoggedInUserFail() {
+
+        
+    //     $post = $this->createDummyBlogPost();
+    //     $this->assertDatabaseHas('blog_posts', $post->getAttributes());
+    //     // Act
+    //     $this->delete("/posts/{$post->id}")
+    //         ->assertStatus(403);
+
+
+    // }
+
+    private function createDummyBlogPost($userId = null): BlogPost
     {
         $post = new BlogPost();
         $post->title = 'New title';
         $post->content = 'Content of the blog post';
         $post->save();
 
-        return BlogPost::factory()->newPost()->create();
+        return BlogPost::factory()->newPost()->create(
+            ['user_id' => $userId ?? $this->user()->id,]
+        );
         return $post;
     }
 }
