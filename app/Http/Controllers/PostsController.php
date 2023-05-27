@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -40,13 +41,15 @@ class PostsController extends Controller
         // $this->authorize('posts.create');
 
         //Comments_count
+        //Using the local query
         return view(
             'posts.index',
             [
                 'posts' => BlogPost::latest()->withCount('comments')
                     ->where('deleted_at', null)
                     ->get(),
-                    'mostCommented' => BlogPost::mostCommented()->take(5)->get(),
+                    'mostCommented' => BlogPost::mostCommented()->take(5)->get(), 
+                    'mostActive'=> User::withMostBlogPosts()->take(5)->get(),
             ]
         );
     }

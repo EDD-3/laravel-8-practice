@@ -27,10 +27,12 @@ class BlogPost extends Model
         return $this->belongsTo(User::class);
     }
 
+    //Defingin a local query scope
     public function scopeLatest(Builder $query) {
         return $query->orderBy(static::CREATED_AT, 'desc');
     }
 
+    //Defining a local query scope
     public function scopeMostCommented(Builder $query) {
         //c
         return $query->withCount('comments')->orderBy('comments_count','desc');
