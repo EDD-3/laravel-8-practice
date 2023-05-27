@@ -43,9 +43,10 @@ class PostsController extends Controller
         return view(
             'posts.index',
             [
-                'posts' => BlogPost::withCount('comments')
+                'posts' => BlogPost::latest()->withCount('comments')
                     ->where('deleted_at', null)
-                    ->get()
+                    ->get(),
+                    'mostCommented' => BlogPost::mostCommented()->take(5)->get(),
             ]
         );
     }
@@ -91,6 +92,15 @@ class PostsController extends Controller
         //
         // $posts = BlogPost::all();
         // abort_if(!isset($posts[$id]), 404);
+
+        //One way of using local query scopes
+        // return view('posts.show', [
+        //     'post' => BlogPost::with(['comments' => function ($query) {
+        //         return $query->latest();
+        //     }])->findOrFail($id)
+        // ]);
+
+
         return view('posts.show', [
             'post' => BlogPost::with('comments')->findOrFail($id)
         ]);
