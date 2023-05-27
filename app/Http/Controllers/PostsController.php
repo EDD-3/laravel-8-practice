@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Gate;
 
 class PostsController extends Controller
 {
-    public function __construct () {
-        $this->middleware('auth')->only(['create','store','edit','destroy','update']);
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['create', 'store', 'edit', 'destroy', 'update']);
     }
 
     /**
@@ -23,16 +24,16 @@ class PostsController extends Controller
     {
         // //
         // DB::connection()->enableQueryLog();
-            //Eager loading
+        //Eager loading
         // $posts = BlogPost::with('comments')->get();
-            //Lazy loading
+        //Lazy loading
         // $posts = BlogPost::all();
 
         // foreach ($posts as $post) {
         //     foreach ($post->comments as $comment) {
         //         echo $comment->content;
         //     }
-            
+
         // }
         // dd(DB::getQueryLog());
 
@@ -40,8 +41,8 @@ class PostsController extends Controller
 
         //Comments_count
         return view(
-            'posts.index', 
-            ['posts' => BlogPost::withCount('comments')->where('deleted_at',null)->get()]
+            'posts.index',
+            ['posts' => BlogPost::withCount('comments')->where('deleted_at', null)->get()]
         );
     }
 
@@ -51,7 +52,7 @@ class PostsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    {
         return view('posts.create');
         //
     }
@@ -101,14 +102,14 @@ class PostsController extends Controller
     {
         $post = BlogPost::findOrFail($id);
 
-        $this->authorize('posts.update',$post);
+        $this->authorize('update', $post);
         // if (Gate::denies('update-post',$post)) {
         //     //Redirects if user is 
         //     //not authorized to edit the post
         //     abort(403, "You can't edit this blog post!");
         // }
         //
-        return view('posts.edit', ['post' => $post ]);
+        return view('posts.edit', ['post' => $post]);
     }
 
     /**
@@ -122,7 +123,7 @@ class PostsController extends Controller
     {
         //
         $post = BlogPost::findOrFail($id);
-        $this->authorize('posts.update', $post);
+        $this->authorize('update', $post);
         $validated = $request->validated();
         $post->fill($validated);
         $post->save();
@@ -144,7 +145,7 @@ class PostsController extends Controller
         $post = BlogPost::findOrFail($id);
         $post->delete();
 
-        $this->authorize('posts.delete',$post);
+        $this->authorize('delete', $post);
         // if (Gate::denies('delete-post',$post)) {
         //     //Redirects if user is 
         //     //not authorized to modify the post

@@ -15,7 +15,9 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
+        //You can use models or resources
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        'App\BlogPost' => 'App\Policies\BlogPostPolicy',
     ];
 
     /**
@@ -42,19 +44,19 @@ class AuthServiceProvider extends ServiceProvider
 
         //This gate gets called before any of the other 
         //gates
-        // Gate::before(function ($user, $ability) {
-        //     if($user->is_admin && in_array($ability, ['posts.update'])) {
-        //         return true;
-        //     }
+        Gate::before(function ($user, $ability) {
+            if($user->is_admin && in_array($ability, ['update'])) {
+                return true;
+            }
 
-        // });
+        });
 
         // Laravel 8.x.x <
         // Gate::define('post.update', 'App\Policies\BlogPostPolicy@update');
         // Gate::define('post.delete','App\Policies\BlogPostPolicy@delete');
 
-        Gate::define('posts.update', [BlogPostPolicy::class, 'update']);
-        Gate::define('posts.delete', [BlogPostPolicy::class, 'delete']);
+        // Gate::define('posts.update', [BlogPostPolicy::class, 'update']);
+        // Gate::define('posts.delete', [BlogPostPolicy::class, 'delete']);
 
         //Works in similar nature to Auth::routes()
         //posts.create, posts.view, posts.update, posts.delete
