@@ -39,7 +39,7 @@ class PostsController extends Controller
         //Comments_count
         return view(
             'posts.index', 
-            ['posts' => BlogPost::withCount('comments')->get()]
+            ['posts' => BlogPost::withCount('comments')->where('deleted_at',null)->get()]
         );
     }
 
