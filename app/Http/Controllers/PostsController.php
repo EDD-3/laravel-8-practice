@@ -36,6 +36,8 @@ class PostsController extends Controller
         // }
         // dd(DB::getQueryLog());
 
+        // $this->authorize('posts.create');
+
         //Comments_count
         return view(
             'posts.index', 
@@ -99,7 +101,7 @@ class PostsController extends Controller
     {
         $post = BlogPost::findOrFail($id);
 
-        $this->authorize('update-post',$post);
+        $this->authorize('posts.update',$post);
         // if (Gate::denies('update-post',$post)) {
         //     //Redirects if user is 
         //     //not authorized to edit the post
@@ -120,7 +122,7 @@ class PostsController extends Controller
     {
         //
         $post = BlogPost::findOrFail($id);
-        $this->authorize('update-post', $post);
+        $this->authorize('posts.update', $post);
         $validated = $request->validated();
         $post->fill($validated);
         $post->save();
@@ -142,7 +144,7 @@ class PostsController extends Controller
         $post = BlogPost::findOrFail($id);
         $post->delete();
 
-        $this->authorize('delete-post',$post);
+        $this->authorize('posts.delete',$post);
         // if (Gate::denies('delete-post',$post)) {
         //     //Redirects if user is 
         //     //not authorized to modify the post
