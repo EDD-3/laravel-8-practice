@@ -31,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
         //Laravel 8.x.x >
         Blade::aliasComponent('components.updated', 'updated');
         Blade::aliasComponent('components.badge', 'badge');
+        Blade::aliasComponent('components.card', 'card');
     }
 }

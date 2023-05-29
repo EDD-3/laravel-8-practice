@@ -15,7 +15,9 @@
         </div>
         <div class="col-4">
             <div class="container">
-                <div class="row">
+
+                {{-- Card 1 --}}
+                {{-- <div class="row">
                     <div class="card" style="width: 100%;">
                         <div class="card-body">
                             <h5 class="card-title">Most Commented</h5>
@@ -31,9 +33,10 @@
                             @endforeach
                         </ul>
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="row mt-4">
+                {{-- Card 2 --}}
+                {{-- <div class="row mt-4">
                     <div class="card" style="width: 100%;">
                         <div class="card-body">
                             <h5 class="card-title">Most Active</h5>
@@ -48,9 +51,10 @@
 
                         </ul>
                     </div>
-                </div>
+                </div> --}}
 
-                <div class="row mt-4">
+                {{-- Card 3 --}}
+                {{-- <div class="row mt-4">
                     <div class="card" style="width: 100%;">
                         <div class="card-body">
                             <h5 class="card-title">Most Active</h5>
@@ -59,15 +63,41 @@
                         <ul class="list-group list-group-flush">
                             @foreach ($mostActiveLastMonth as $activeUserLastMonth)
                                 <li class="list-group-item">
-                                    <p>{{ $activeUserLastMonth->name}}</p>
+                                    <p>{{ $activeUserLastMonth->name }}</p>
                                 </li>
                             @endforeach
 
                         </ul>
                     </div>
-                </div>
+                </div> --}}
+
+                {{-- Card 1 --}}
+                @card(['title' => 'Most Commented', 'subtitle' => 'What People are currently talking about.'])
+                    @slot('items')
+                        @foreach ($mostCommented as $bestPost)
+                            <li class="list-group-item">
+                                <a href="{{ route('posts.show', ['post' => $post->id]) }}">
+                                    {{ $bestPost->title }}
+                                </a>
+                            </li>
+                        @endforeach
+                    @endslot
+                @endcard
+
+                {{-- Card 2 --}}
+                @card(['title' => 'Most Active', 'subtitle' => 'Users with most posts written last month.'])
+                    @slot('items', collect($mostActiveLastMonth)->pluck('name'))
+                @endcard
+
+
+                {{-- Card 3 --}}
+                @card(['title' => 'Most Active', 'subtitle' => 'Users with most posts written'])
+                    @slot('items', collect($mostActive)->pluck('name'))
+                @endcard
+
             </div>
         </div>
     </div>
+
 
 @endsection
