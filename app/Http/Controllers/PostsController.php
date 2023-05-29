@@ -5,9 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Cache;
+
+// use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\DB;
+
+// use Illuminate\Support\Facades\Gate;
+// [
+//     'show' => 'view',
+//     'create' => 'create',
+//     'store' => 'create',
+//     'edit' => 'update',
+//     'update' => 'update',
+//     'destroy' => 'delete',
+// ]
 
 class PostsController extends Controller
 {
@@ -21,6 +32,7 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         // //
@@ -42,13 +54,27 @@ class PostsController extends Controller
 
         //Comments_count
         //Using the local query
+
+        // User::withMostBlogPosts()->take(5)->get()
+        $mostCommented = Cache::remember('mostCommented', now()->addSeconds(10), function () {
+            return BlogPost::mostCommented()->take(5)->get();
+        });
+
+        $mostActive = Cache::remember('mostActive', now()->addSeconds(10), function () {
+            return User::withMostBlogPosts()->take(5)->get();
+        });
+
+        $mostActiveLastMonth = Cache::remember('mostActiveLastMonth', now()->addSeconds(10), function () {
+            return User::withMostBlogPostsLastMonth()->take(5)->get();
+        });
+
         return view(
             'posts.index',
             [
                 'posts' => BlogPost::latest()->withCount('comments')->with('user')->get(),
-                    'mostCommented' => BlogPost::mostCommented()->take(5)->get(), 
-                    'mostActive'=> User::withMostBlogPosts()->take(5)->get(),
-                    'mostActiveLastMonth' => User::withMostBlogPostsLastMonth()->take(5)->get(),
+                'mostCommented' => $mostCommented,
+                'mostActive' => $mostActive,
+                'mostActiveLastMonth' => $mostActiveLastMonth,
             ]
         );
     }
