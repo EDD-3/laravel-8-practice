@@ -136,7 +136,7 @@ class PostsController extends Controller
         //Adding a counter on how many users are visiting our website
         //using cache
 
-        $sessionId = session() -> getId();
+        $sessionId = session()->getId();
         $counterKey = "blog-post-{$id}-counter";
         $usersKey = "blog-post-{$id}-users";
 
@@ -146,16 +146,14 @@ class PostsController extends Controller
         $now = now();
 
         foreach ($users as $session => $lastVisit) {
-            if($now->diffInMinutes($lastVisit) >= 1) {
+            if ($now->diffInMinutes($lastVisit) >= 1) {
                 $difference--;
             } else {
                 $usersUpdate[$session] = $lastVisit;
             }
         }
 
-
-
-        if(!array_key_exists($sessionId, $users) || $now->diffInMinutes($users[$sessionId]) >= 1) {
+        if (!array_key_exists($sessionId, $users) || $now->diffInMinutes($users[$sessionId]) >= 1) {
             $difference++;
         }
 
@@ -163,13 +161,13 @@ class PostsController extends Controller
         Cache::forever($usersKey, $usersUpdate);
 
         if (!Cache::has($counterKey)) {
-            Cache::forever($counterKey,1);
+            Cache::forever($counterKey, 1);
         } else {
             Cache::increment($counterKey, $difference);
         }
 
         $counter = Cache::get($counterKey);
-        
+
         return view('posts.show', [
             'post' => $blogPost,
             'counter' => $counter,
