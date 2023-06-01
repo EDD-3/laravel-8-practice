@@ -18,6 +18,8 @@
 @updated(['date' => $post->created_at, 'name' => $post->user->name])
 @endupdated
 
+@tags(['tags' => $post->tags])@endtags
+
 @if ($post->trashed())
     </del>
 @endif

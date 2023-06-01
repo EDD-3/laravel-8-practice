@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\PostTagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,8 @@ Route::get('/secret', [HomeController::class, 'secret'])
 Route::get('/single', AboutController::class);
 
 Route::resource('posts', PostsController::class);
+
+Route::get('/posts/tag/{tag}', [PostTagController::class, 'index'])->name('posts.tags.index');
     // ->except(['index','show']); remove methods of you choosing
     // ->only(['index','show']); to limit methods of you choosing
 

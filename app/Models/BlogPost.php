@@ -33,7 +33,7 @@ class BlogPost extends Model
 
     //Many to many relationship
     public function tags () {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
     //Defingin a local query scope
