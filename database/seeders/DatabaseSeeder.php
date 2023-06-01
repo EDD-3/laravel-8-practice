@@ -2,13 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\BlogPost;
-use App\Models\Comment;
-
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Cache;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -24,6 +19,8 @@ class DatabaseSeeder extends Seeder
             $this->command->info('Database was refreshed');
         }
         
+        Cache::tags(['blog-post'])->flush();
+
         $this->call([
             UsersTableSeeder::class,
             BlogPostsTableSeeder::class,
