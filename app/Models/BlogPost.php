@@ -21,12 +21,19 @@ class BlogPost extends Model
         'user_id'
     ];
 
+    //One to many
     public function comments () {
         return $this->hasMany(Comment::class)->latest();
     }
 
+    //One to one
     public function user () {
         return $this->belongsTo(User::class);
+    }
+
+    //Many to many relationship
+    public function tags () {
+        return $this->belongsToMany(Tag::class);
     }
 
     //Defingin a local query scope
