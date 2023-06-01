@@ -37,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
 
 
         //Calling the View Composer
-        view()->composer('posts.index', ActivityComposer::class);
+        //Making the view composer class available on two views
+        view()->composer(['posts.index','posts.show'],ActivityComposer::class);
+        // view()->composer('*',ActivityComposer::class);
     }
 }
