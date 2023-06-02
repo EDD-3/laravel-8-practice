@@ -116,7 +116,11 @@ class PostsController extends Controller
 
         //Saving the post in cache
         $blogPost = Cache::tags(['blog-post'])->remember("blog-post-{$id}", 60, function () use ($id) {
-            return BlogPost::with('comments')->with('user')->with('tags')->findOrFail($id);
+            return BlogPost::with('comments')
+            ->with('tags')
+            ->with('user')
+            ->with('comments.user')
+            ->findOrFail($id);
         });
 
         //Adding a counter on how many users are visiting our website
