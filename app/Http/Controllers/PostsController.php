@@ -60,7 +60,7 @@ class PostsController extends Controller
         return view(
             'posts.index',
             [
-                'posts' => BlogPost::latest()->withCount('comments')->with('user')->with('tags')->get(),
+                'posts' => BlogPost::latestWithRelations()->get(),
             ]
         );
     }
@@ -116,10 +116,7 @@ class PostsController extends Controller
 
         //Saving the post in cache
         $blogPost = Cache::tags(['blog-post'])->remember("blog-post-{$id}", 60, function () use ($id) {
-            return BlogPost::with('comments')
-            ->with('tags')
-            ->with('user')
-            ->with('comments.user')
+            return BlogPost::with('comments', 'tags', 'user', 'comments.user')
             ->findOrFail($id);
         });
 

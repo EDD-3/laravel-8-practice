@@ -17,8 +17,10 @@ class PostTagController extends Controller
         return view(
             'posts.index',
             [   
-                //You call queries
-                'posts' => $tag->blogPosts()->latest()->withCount('comments')->with('user')->with('tags')->get(),
+                //You can call queries on object relations
+                'posts' => $tag->blogPosts()
+                ->latestWithRelations()
+                ->get(),
             ]
         );
     }
