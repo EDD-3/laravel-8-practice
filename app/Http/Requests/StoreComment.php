@@ -23,6 +23,7 @@ class StoreComment extends FormRequest
      */
     public function rules()
     {
+        //Validation rules for submitting a comment
         return [
             //
             'content' => 'required|min:5',

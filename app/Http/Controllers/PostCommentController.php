@@ -13,6 +13,8 @@ class PostCommentController extends Controller
     {
         $this->middleware('auth')->only(['store']);
     }
+
+    //Route Model Binding
     public function store(BlogPost $post, StoreComment $request) {
         
         $post->comments()->create([

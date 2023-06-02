@@ -44,6 +44,11 @@ class Comment extends Model
         // );
 
         static::creating(function (Comment $comment) {
+
+            //Subscribing to a model to event
+            //to delete 
+            //comments to update views and posts
+            //saved on cache memory redis instance
             Cache::tags(['blog-post'])->forget("blog-post-{$comment->blog_post_id}");
             Cache::tags(['blog-post'])->forget("mostCommented");
         });
