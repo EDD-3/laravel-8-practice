@@ -3,9 +3,12 @@
 
 <div class='col-8'></div>
 <h3>
-    @if ($post->trashed())
-        <del>
-    @endif
+    @auth
+        @if ($post->trashed())
+            <del>
+        @endif
+    @endauth
+
     <a class="{{ $post->trashed() ? 'text-muted' : '' }}"
         href="{{ route('posts.show', ['post' => $post->id]) }}">{{ $post->title }}</a>
 </h3>
@@ -18,11 +21,15 @@
 @updated(['date' => $post->created_at, 'name' => $post->user->name])
 @endupdated
 
-@tags(['tags' => $post->tags])@endtags
+@tags(['tags' => $post->tags])
+@endtags
 
-@if ($post->trashed())
-    </del>
-@endif
+@auth
+    @if ($post->trashed())
+        </del>
+    @endif
+@endauth
+
 
 
 

@@ -9,6 +9,9 @@ use Illuminate\View\View;
 
 class ActivityComposer 
 {
+    //Makes information avialable to a view
+    //instead of relying on the controller to 
+    //to fetch the information
     public function compose(View $view) 
     {
         $mostCommented = Cache::tags(['blog-post'])->remember('blog-post-commented', now()->addSeconds(10), function () {
