@@ -12,7 +12,7 @@ class PostTagController extends Controller
     public function index($tag)
     {
 
-        $tag = Tag::where('id',$tag)->with('blogPosts')->firstOrFail();
+        $tag = Tag::with('blogPosts')->findOrFail($tag);
 
         return view('posts.index', 
         [
