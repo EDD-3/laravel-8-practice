@@ -89,6 +89,18 @@ class PostsController extends Controller
         $post = new BlogPost();
         $post = BlogPost::create($validated);
 
+        //Using php basic examples
+        $hasFile = ($request->hasFile('thumbnail'));
+        
+        if ($hasFile) {
+            dump($file = $request->file('thumbnail'));
+            dump($file->getClientMimeType());
+            dump($file->getClientOriginalExtension());
+            
+            dump($file->store('thumbnails'));
+        }
+        die;
+
 
         $request->session()->flash('status', 'The blog post was created!');
 
