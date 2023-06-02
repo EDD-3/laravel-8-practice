@@ -1,3 +1,5 @@
+{{-- Shows the blog post with comments --}}
+
 @extends('layouts.app')
 @section('title', $post->title)
 
@@ -5,7 +7,7 @@
     <div class="row">
         <div class="col-8">
             <h1>{{ $post->title }}
-                @badge(['show' => now()->diffInMinutes($post->created_at) <= 600])
+                @badge(['show' => now()->diffInMinutes($post->created_at) <= 30])
                     Brand new Post!
                 @endbadge
 
@@ -33,7 +35,7 @@
                 {{-- <p class="text-muted">
                 added {{ $comment->created_at->diffForHumans() }}
             </p> --}}
-                @updated(['date' => $comment->created_at])
+                @updated(['date' => $comment->created_at, 'name' => $comment->user->name])
                 @endupdated
             @empty
                 <p>No comments yet!</p>
