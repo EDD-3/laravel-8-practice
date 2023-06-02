@@ -30,10 +30,10 @@
 
             <h4>Comments</h4>
 
-            @include('comments.form');
+            @include('comments.form')
 
             @forelse($post->comments as $comment)
-                <p>{{ $comment->content }}, </p>
+                <p class="font-italic">{{ $comment->content }}</p>
 
                 {{-- <p class="text-muted">
                 added {{ $comment->created_at->diffForHumans() }}

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostCommentController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\PostTagController;
 use Illuminate\Http\Request;
@@ -30,7 +31,6 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'home'])->name('home.index');//->middleware('auth');
-
 Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
 Route::get('/secret', [HomeController::class, 'secret'])
 ->name('secret')
@@ -41,6 +41,10 @@ Route::get('/single', AboutController::class);
 Route::resource('posts', PostsController::class);
 
 Route::get('/posts/tag/{tag}', [PostTagController::class, 'index'])->name('posts.tags.index');
+
+Route::resource('posts.comments', PostCommentController::class)->only(['store']);
+
+
     // ->except(['index','show']); remove methods of you choosing
     // ->only(['index','show']); to limit methods of you choosing
 

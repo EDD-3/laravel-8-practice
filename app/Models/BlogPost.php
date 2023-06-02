@@ -65,6 +65,7 @@ class BlogPost extends Model
         //     //Accessing as a field not as a method
         //     //This will delete all comments associated with this particular blogPost
              $blogPost->comments()->delete();
+             Cache::tags(['blog-post'])->forget("blog-post-{$blogPost->id}");
 
         });
 
@@ -76,7 +77,7 @@ class BlogPost extends Model
         //to delete the data save
         //in cache and update it
         static::updating(function (BlogPost $blogPost) {
-            Cache::forget("blog-post-{$blogPost->id}");
+            Cache::tags(['blog-post'])->forget("blog-post-{$blogPost->id}");
         });
     }
     
