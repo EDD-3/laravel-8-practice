@@ -6,6 +6,7 @@ use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 // use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\DB;
@@ -97,7 +98,19 @@ class PostsController extends Controller
             dump($file->getClientMimeType());
             dump($file->getClientOriginalExtension());
             
-            dump($file->store('thumbnails'));
+            //Saving file using php built in methods
+            // dump($file->store('thumbnails'));
+
+            //Saving file using laravel storage facade
+            // dump(Storage::disk('public')->putFile('thumbnails', $file));
+
+            //Saving file using a customize name
+            $name1 = $file->storeAs('thumbnails', $post->id . '.' . $file->guessExtension());
+            $name2 = Storage::disk('local')->putFileAs('thumbnails', $file, $post->id . '.' . $file->guessExtension());
+            
+            dump(Storage::url($name1));
+            
+            dump(Storage::disk('local')->url($name2));
         }
         die;
 
