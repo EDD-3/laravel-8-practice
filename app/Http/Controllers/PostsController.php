@@ -205,6 +205,22 @@ class PostsController extends Controller
         $post->fill($validated);
         $post->save();
 
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails');
+
+            if ($post->image) {
+                //this methods deletes the path and the images from storage
+                Storage::delete($post->image->path);
+                $post->image->path = $path;
+                $post->image->save();
+            } else {
+                $post->image()->save(
+                    Image::create(['path' => $path])
+                );
+            }
+
+        }
+
         $request->session()->flash('status', 'Blog post was updated!');
 
         return redirect()->route('posts.show', ['post' => $post->id]);

@@ -73,10 +73,13 @@ class BlogPost extends Model
         
         // //Deleting model with relation
         static::deleting(function (BlogPost $blogPost) {
-        //     //Accessing as a field not as a method
-        //     //This will delete all comments associated with this particular blogPost
+           //Accessing as a field not as a method.
+           //This will delete all comments associated with this particular blogPost.
              $blogPost->comments()->delete();
-             //Deleting comments save in the cache
+
+             //Delete the image saved to storage.
+            //  $blogPost->image()->delete();
+             //Deleting comments save in the cache.
              Cache::tags(['blog-post'])->forget("blog-post-{$blogPost->id}");
 
         });
