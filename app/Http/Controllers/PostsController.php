@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
@@ -89,31 +90,13 @@ class PostsController extends Controller
         $validated['user_id'] = $request->user()->id;
         $post = new BlogPost();
         $post = BlogPost::create($validated);
-
-        //Using php basic examples
-        $hasFile = ($request->hasFile('thumbnail'));
         
-        if ($hasFile) {
-            dump($file = $request->file('thumbnail'));
-            dump($file->getClientMimeType());
-            dump($file->getClientOriginalExtension());
-            
-            //Saving file using php built in methods
-            // dump($file->store('thumbnails'));
-
-            //Saving file using laravel storage facade
-            // dump(Storage::disk('public')->putFile('thumbnails', $file));
-
-            //Saving file using a customize name
-            $name1 = $file->storeAs('thumbnails', $post->id . '.' . $file->guessExtension());
-            $name2 = Storage::disk('local')->putFileAs('thumbnails', $file, $post->id . '.' . $file->guessExtension());
-            
-            dump(Storage::url($name1));
-            
-            dump(Storage::disk('local')->url($name2));
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails');
+            $post->image()->save(
+                Image::create(['path' => $path])
+            );
         }
-        die;
-
 
         $request->session()->flash('status', 'The blog post was created!');
 
