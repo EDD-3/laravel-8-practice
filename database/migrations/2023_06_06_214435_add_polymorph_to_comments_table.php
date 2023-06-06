@@ -15,9 +15,8 @@ class AddPolymorphToCommentsTable extends Migration
     {
         Schema::table('comments', function (Blueprint $table) {
             //
-            $table->dropForeign(['blog_post']);
+            $table->dropForeign(['blog_post_id']);
             $table->dropColumn('blog_post_id');
-
             $table->morphs('commentable');
         });
     }
