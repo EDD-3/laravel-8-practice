@@ -52,8 +52,12 @@ class User extends Authenticatable
         return $query->withCount('blogPosts')->orderBy('blog_posts_count', 'desc');
     }
 
-    public function comments() {
-        return $this->hasMany(Comment::class);
+    // public function comments() {
+    //     return $this->hasMany(Comment::class);
+    // }
+
+    public function commentsOn () {
+        return $this->morphMany(Comment::class, 'commentable')->latest();
     }
 
     //Polymorphic one to one relationship

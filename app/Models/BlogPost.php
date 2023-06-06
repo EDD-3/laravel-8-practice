@@ -21,9 +21,14 @@ class BlogPost extends Model
         'user_id'
     ];
 
-    //One to many
+    // //One to many
+    // public function comments () {
+    //     return $this->hasMany(Comment::class)->latest();
+    // }
+
+    //One to many polymorphic relationship
     public function comments () {
-        return $this->hasMany(Comment::class)->latest();
+        return $this->morphMany(Comment::class, 'commentable')->latest();
     }
 
     //One to one

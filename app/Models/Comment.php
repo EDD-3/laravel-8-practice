@@ -19,9 +19,9 @@ class Comment extends Model
         'content',
     ];
 
-    public function blogPost()
-    {
-        return $this->belongsTo(BlogPost::class);
+    //Polymorphic one to many
+    public function commentable() {
+        return $this->morphTo();
     }
 
     public function scopeLatest(Builder $query)
@@ -49,8 +49,12 @@ class Comment extends Model
             //to delete 
             //comments to update views and posts
             //saved on cache memory redis instance
-            Cache::tags(['blog-post'])->forget("blog-post-{$comment->blog_post_id}");
-            Cache::tags(['blog-post'])->forget("mostCommented");
+            if ($comment->commentable_type === BlogPost::class ) { 
+                //We changed the blog_post_id for commentable_id
+                Cache::tags(['blog-post'])->forget("blog-post-{$comment->commentable_id}");
+                Cache::tags(['blog-post'])->forget("mostCommented");
+            }
+
         });
     }
 }
