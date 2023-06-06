@@ -36,8 +36,10 @@ class BlogPost extends Model
         return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
+    //Polymorphic one to one relationship
     public function image () {
-        return $this->hasOne(Image::class);
+        //The method asks the class constan name and the prefix name
+        return $this->morphOne(Image::class, 'imageable');
     }
 
     //Defingin a local query scope

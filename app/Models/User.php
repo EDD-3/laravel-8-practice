@@ -56,6 +56,12 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    //Polymorphic one to one relationship
+    public function image () {
+        //The method asks the class constan name and the prefix name
+        return $this->morphOne(Image::class, 'imageable');
+    }
+
     public function scopeWithMostBlogPostsLastMonth(Builder $query)
     {
         return $query->withCount(['blogPosts' => function (Builder $query) {
