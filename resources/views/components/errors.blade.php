@@ -1,3 +1,4 @@
+{{-- Component for displaying form errors --}}
 @if ($errors->any())
     <div class="mt-2 mb-2">
         <ul class="list-group">

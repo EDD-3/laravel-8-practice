@@ -37,7 +37,8 @@ class AppServiceProvider extends ServiceProvider
         Blade::aliasComponent('components.card', 'card');
         Blade::aliasComponent('components.tags', 'tags');
         Blade::aliasComponent('components.errors', 'errors');
-
+        Blade::aliasComponent('components.comment-form','commentForm');
+        Blade::aliasComponent('components.comment-list','commentList');
 
         //Calling the View Composer
         //Making the view composer class available on two views

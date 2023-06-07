@@ -1,3 +1,4 @@
+{{-- Components for displaying card on the side of the index--}}
 <div class="row mt-4">
     <div class="card" style="width: 100%;">
         <div class="card-body">
