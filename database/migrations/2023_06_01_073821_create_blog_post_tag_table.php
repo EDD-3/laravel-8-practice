@@ -15,7 +15,7 @@ class CreateBlogPostTagTable extends Migration
     {
         Schema::create('blog_post_tag', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('blog_post_id');
+            $table->foreignId('blog_post_id')->nullable();
 
             $table->foreign('blog_post_id')->references('id')->on('blog_posts')->onDelete('cascade');
 

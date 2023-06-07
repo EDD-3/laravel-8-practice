@@ -23,7 +23,7 @@ class BlogPostTagTableSeeder extends Seeder
             $this->command->info('No tags found, skipping assigning tags to blog posts');
         }
 
-        $howManyMin = (int)$this->command->ask('Minimum tags on blog posts?', 0);
+        $howManyMin = min((int)$this->command->ask('Minimum tags on blog posts?', 0), $tagCount);
 
         $howManyMax = min((int)$this->command->ask('Maximum tags on blog posts?', $tagCount) , $tagCount);
 
