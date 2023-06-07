@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\DeletedAdminScope;
+use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,8 +12,7 @@ use Illuminate\Support\Facades\Cache;
 
 class BlogPost extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes, Taggable;
 
     protected $fillable = [
         'title',
@@ -40,10 +40,7 @@ class BlogPost extends Model
     //     return $this->belongsToMany(Tag::class)->withTimestamps();
     // }
 
-    //Many to many relationship polymorphic relationship
-    public function tags () {
-        return $this->morphToMany(Tag::class,'taggable')->withTimestamps();
-    }
+
 
     //Polymorphic one to one relationship
     public function image () {
