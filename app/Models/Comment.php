@@ -24,6 +24,12 @@ class Comment extends Model
         return $this->morphTo();
     }
 
+    //Many to many polymorphic relation
+    public function tags () {
+        return $this->morphsToMany(Tag::class,'taggable')->withTimestamps();
+    }
+
+
     public function scopeLatest(Builder $query)
     {
         return $query->orderBy(static::CREATED_AT, 'desc');

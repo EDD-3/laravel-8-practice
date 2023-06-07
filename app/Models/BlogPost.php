@@ -36,8 +36,13 @@ class BlogPost extends Model
     }
 
     //Many to many relationship
+    // public function tags () {
+    //     return $this->belongsToMany(Tag::class)->withTimestamps();
+    // }
+
+    //Many to many relationship polymorphic relationship
     public function tags () {
-        return $this->belongsToMany(Tag::class)->withTimestamps();
+        return $this->morphToMany(Tag::class,'taggable')->withTimestamps();
     }
 
     //Polymorphic one to one relationship
