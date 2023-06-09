@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\CommentPosted;
+use App\Listeners\NotifyUsersAboutComment;
 use App\Models\BlogPost;
 use App\Models\Comment;
 use App\Observers\BlogPostObserver;
@@ -22,6 +24,11 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+
+        //Registering our custom event and listener
+        CommentPosted::class => [
+            NotifyUsersAboutComment::class,
+        ]
     ];
 
     /**

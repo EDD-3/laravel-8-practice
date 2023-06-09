@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentPosted;
 use App\Http\Requests\StoreComment;
-use App\Jobs\NotifyUsersPostWasCommented;
-use App\Jobs\ThrottledMail;
-use App\Mail\CommentPostedMarkdown;
 use App\Models\BlogPost;
 
-
+//Less logic inside the controller the better
+//We decoupled
 class PostCommentController extends Controller
 {
     //
@@ -50,15 +49,8 @@ class PostCommentController extends Controller
             //     new CommentPostedMarkdown($comment)
             // );
 
-            //Notifies the post owner that someone has posted a comment
-            ThrottledMail::dispatch(new CommentPostedMarkdown($comment), $post->user)
-            //Adding priority to jobs
-            ->onQueue('high');
+            event(new CommentPosted($comment));
 
-            //Dispatchin our custom job
-            //Notifies users who have commented on this specific post
-            NotifyUsersPostWasCommented::dispatch($comment)
-            ->onQueue('low');
 
 
             return redirect()->back()
