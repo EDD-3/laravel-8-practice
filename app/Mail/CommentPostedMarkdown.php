@@ -8,7 +8,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class CommentPostedMarkdown extends Mailable
+//Added ShouldQueue interface for asynchronous operation
+class CommentPostedMarkdown extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
