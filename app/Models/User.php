@@ -81,4 +81,9 @@ class User extends Authenticatable
             where('commentable_type', '=', BlogPost::class);
         });
     }
+
+    //Get all users who are admins
+    public function scopeThatIsAnAdmin(Builder $query) {
+        return $query->where('is_admin', true);
+    }
 }
