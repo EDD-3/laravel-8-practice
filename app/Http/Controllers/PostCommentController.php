@@ -28,11 +28,28 @@ class PostCommentController extends Controller
 
             //Sending an email to the proper user of the post when
             //comment gets posted 
-            Mail::to($post->user)->send(
-                // new CommentPosted($comment),
+            // Mail::to($post->user)->send(
+            //     // new CommentPosted($comment),
 
+            //     new CommentPostedMarkdown($comment)
+            // );
+
+            //Sending email to queue without implementing 
+            //Should Queue interface on the CommentPostedMarkdown
+            // Mail::to($post->user)->queue(
+            //     // new CommentPosted($comment),
+
+            //     new CommentPostedMarkdown($comment)
+            // );
+
+            $when = now()->addMinutes(1);
+
+            Mail::to($post->user)->later(
+                // new CommentPosted($comment),
+                $when,
                 new CommentPostedMarkdown($comment)
             );
+
 
             return redirect()->back()
             ->withStatus('Comment was created!');
