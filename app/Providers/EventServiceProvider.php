@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\BlogPostPosted;
 use App\Events\CommentPosted;
+use App\Listeners\NotifyAdminBlogPostWasCreated;
 use App\Listeners\NotifyUsersAboutComment;
 use App\Models\BlogPost;
 use App\Models\Comment;
@@ -28,6 +30,12 @@ class EventServiceProvider extends ServiceProvider
         //Registering our custom event and listener
         CommentPosted::class => [
             NotifyUsersAboutComment::class,
+        ],
+
+        //Registering our second custom event and listener
+        //both run in the background
+        BlogPostPosted::class => [
+            NotifyAdminBlogPostWasCreated::class,
         ]
     ];
 
