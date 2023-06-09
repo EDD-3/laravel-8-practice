@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Scopes\LatestScope;
 use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Cache;
+
 
 class Comment extends Model
 {
@@ -49,18 +48,8 @@ class Comment extends Model
         //     new LatestScope
         // );
 
-        static::creating(function (Comment $comment) {
+        // static::creating(function (Comment $comment) {
 
-            //Subscribing to a model to event
-            //to delete 
-            //comments to update views and posts
-            //saved on cache memory redis instance
-            if ($comment->commentable_type === BlogPost::class ) { 
-                //We changed the blog_post_id for commentable_id
-                Cache::tags(['blog-post'])->forget("blog-post-{$comment->commentable_id}");
-                Cache::tags(['blog-post'])->forget("mostCommented");
-            }
-
-        });
+        // });
     }
 }
