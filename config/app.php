@@ -80,7 +80,7 @@ return [
     |
     */
     // We can change here our language from en to es to de
-    'locale' => 'es',
+    'locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
