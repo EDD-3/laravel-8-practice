@@ -17,5 +17,7 @@
 
     <p>{{ trans('messages.plural', 2) }}</p>
 
-    <p>This is the content of the main page!</p>
+    <p> Using JSON: {{__('Welcome to Laravel')}}</p>
+
+    <p>{{ __('Hello :name', ['name' => 'John'])}}</p>
 @endsection
