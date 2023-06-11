@@ -90,7 +90,7 @@ class PostsController extends Controller
         $validated['user_id'] = $request->user()->id;
         $post = new BlogPost();
         $post = BlogPost::create($validated);
-        
+
         if ($request->hasFile('thumbnail')) {
             $path = $request->file('thumbnail')->store('thumbnails');
             $post->image()->save(
@@ -100,9 +100,8 @@ class PostsController extends Controller
 
         event(new BlogPostPosted($post));
 
-        $request->session()->flash('status', 'The blog post was created!');
-
-        return redirect()->route('posts.show', ['post' => $post->id]);
+        //We use custom langugage keys in our locale json files in resources/lang
+        return redirect()->route('posts.show', ['post' => $post->id])->with('status', __('Blog post was created'));
     }
 
     /**
@@ -127,7 +126,7 @@ class PostsController extends Controller
         //Saving the post in cache
         $blogPost = Cache::tags(['blog-post'])->remember("blog-post-{$id}", 60, function () use ($id) {
             return BlogPost::with('comments', 'tags', 'user', 'comments.user')
-            ->findOrFail($id);
+                ->findOrFail($id);
         });
 
         //Adding a counter on how many users are visiting our website
@@ -220,12 +219,9 @@ class PostsController extends Controller
                     Image::create(['path' => $path])
                 );
             }
-
         }
 
-        $request->session()->flash('status', 'Blog post was updated!');
-
-        return redirect()->route('posts.show', ['post' => $post->id]);
+        return redirect()->route('posts.show', ['post' => $post->id])->with('status', __('Blog post was updated!'));
     }
 
     /**
@@ -247,8 +243,7 @@ class PostsController extends Controller
         //     abort(403, "You can't delete this blog post!");
         // }
 
-        session()->flash('status', 'Blog post was delete!');
 
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.index')->with('status', __('Blog post was delete!'));
     }
 }

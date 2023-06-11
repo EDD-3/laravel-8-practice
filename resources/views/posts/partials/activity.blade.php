@@ -1,6 +1,6 @@
 <div class="container">
     {{-- Card 1 --}}
-    @card(['title' => 'Most Commented', 'subtitle' => 'What People are currently talking about.'])
+    @card(['title' => __('Most Commented'), 'subtitle' => __('What people are currently talking about')])
         @slot('items')
             @foreach ($mostCommented as $bestPost)
                 <li class="list-group-item">
@@ -13,13 +13,13 @@
     @endcard
 
     {{-- Card 2 --}}
-    @card(['title' => 'Most Active', 'subtitle' => 'Users with most posts written last month.'])
+    @card(['title' => __('Most Active'), 'subtitle' => __('Users with most posts written in the month')])
         @slot('items', collect($mostActiveLastMonth)->pluck('name'))
     @endcard
 
 
     {{-- Card 3 --}}
-    @card(['title' => 'Most Active', 'subtitle' => 'Users with most posts written'])
+    @card(['title' => __('Most Active'), 'subtitle' => __('Writers with most posts written')])
         @slot('items', collect($mostActive)->pluck('name'))
     @endcard
 

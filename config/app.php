@@ -79,8 +79,8 @@ return [
     | to any of the locales which will be supported by the application.
     |
     */
-
-    'locale' => 'en',
+    // We can change here our language from en to es to de
+    'locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------

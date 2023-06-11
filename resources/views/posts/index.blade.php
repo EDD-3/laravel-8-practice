@@ -9,7 +9,7 @@
                 @include('posts.partials.post', [])
             @empty
                 <div class="container">
-                    <h1>No posts found!</h1>
+                    <h1>{{ __('No blog posts yet!') }}</h1>
                 </div>
             @endforelse
         </div>

@@ -22,7 +22,7 @@ class UserController extends Controller
     public function index()
     {
         //
-       
+
     }
 
     /**
@@ -55,7 +55,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         //
-        return view('users.show', ['user' => $user ]);
+        return view('users.show', ['user' => $user]);
     }
 
     /**
@@ -67,7 +67,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         //
-        return view('users.edit', ['user' => $user ]);
+        return view('users.edit', ['user' => $user]);
     }
 
     /**
@@ -81,7 +81,7 @@ class UserController extends Controller
     {
         //
 
-        if($request->hasFile('avatar')) {
+        if ($request->hasFile('avatar')) {
             $path = $request->file('avatar')->store('avatars');
 
             if ($user->image) {
@@ -94,8 +94,7 @@ class UserController extends Controller
             }
         }
 
-        return redirect()->back()->withStatus('Profile image was updated');
-        
+        return redirect()->back()->withStatus(__('Profile image was updated'));
     }
 
     /**

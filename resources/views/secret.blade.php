@@ -3,8 +3,7 @@
 @section('title', 'Secret Page')
 
 @section('content')
-<h1>Secret</h1>
-<p>This a secret email secret@laravel.test</p>
+    <h1>{{ __('Secret') }}</h1>
+    <p>{{ __('Secret email') }}</p>
 
 @endsection
-
