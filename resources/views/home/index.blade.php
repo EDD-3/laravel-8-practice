@@ -2,6 +2,20 @@
 
 @section('title', 'Home Page')
 
- @section('content')
-     <h1>Hello World</h1>
- @endsection
+@section('content')
+    {{-- Using the dunder method --}}
+    <h1>{{ __('messages.welcome') }}</h1>
+
+    {{-- Using the @lang directive --}}
+    <h1>@lang('messages.welcome')</h1>
+
+    <p>{{ __('messages.example_with_value', ['name' => 'John']) }}</p>
+
+    <p>{{ trans('messages.plural', 0) }}</p>
+
+    <p>{{ trans('messages.plural', 1) }}</p>
+
+    <p>{{ trans('messages.plural', 2) }}</p>
+
+    <p>This is the content of the main page!</p>
+@endsection
