@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\CommentPosted;
 use App\Http\Requests\StoreComment;
 use App\Models\BlogPost;
+use App\Http\Resources\CommentResource;
 
 //Less logic inside the controller the better
 //We decoupled
@@ -32,8 +33,13 @@ class PostCommentController extends Controller
 
         //Being returned as a query
         // return $post->comments();
+        // return $post->comments()->with('user')->get();
 
-        return $post->comments()->with('user')->get();
+        //Returning a collection of comments
+        return CommentResource::collection($post->comments);
+
+        //Returning a single comment
+        // return new CommentResource($post->comments->first());
     }
 
     //Route Model Binding
