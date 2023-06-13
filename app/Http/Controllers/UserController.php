@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\CounterContract;
+use App\Facades\CounterFacade;
 use App\Http\Requests\UpdateUser;
 use App\Models\Image;
 use App\Models\User;
@@ -11,16 +12,17 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {   
-    private $counter;
+    // private $counter;
     //1 . We use dependency injection here to avoid explicitly 
     //calling the service container
 
     //We remove the concretion and depend on the abstraction by the newly created CounterContract interface
-    public function __construct(CounterContract $counter)
+    //public function __construct(CounterContract $counter)
+    public function __construct()
     {
         $this->middleware('auth');
         $this->authorizeResource(User::class, 'user');
-        $this->counter = $counter;
+        // $this->counter = $counter;
     }
     /**
      * Display a listing of the resource.
@@ -66,12 +68,20 @@ class UserController extends Controller
         //user how many people are
         //seeing your post
         //Calling service container
-        $counter = resolve(Counter::class);
+        // $counter = resolve(Counter::class);
+
+        
 
         return view('users.show', [
             'user' => $user,
             //2 . We do not need to resolve the for the Counter instance
-            'counter' => $this->counter->increment("user-{$user->id}")
+
+            /** 
+             * Replacing counter concretion for facade
+             * 'counter' => $this->counter->increment("user-{$user->id}")
+             */
+
+            'counter' => CounterFacade::increment("user-{$user->id}"),
         ]);
     }
 

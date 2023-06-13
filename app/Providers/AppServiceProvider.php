@@ -70,6 +70,11 @@ class AppServiceProvider extends ServiceProvider
             Counter::class
         );
 
+        // $this->app->bind(
+        //     'App\Contracts\CounterContract',
+        //     DummyCounter::class
+        // );
+
         //Code snippet when we use simple services 
         //and we do not need to use singleton patter
 
