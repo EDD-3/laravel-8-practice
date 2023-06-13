@@ -57,7 +57,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(Counter::class, function ($app) {
             // return new Counter(5);
-            return new Counter(env('COUNTER_TIMEOUT'));
+            return new Counter(
+                $app->make('Illuminate\Contracts\Cache\Factory'),
+                $app->make('Illuminate\Contracts\Session\Session'),
+                env('COUNTER_TIMEOUT'));
         });
 
         //Code snippet when we use simple services 
