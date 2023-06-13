@@ -22,7 +22,9 @@ class CommentResource extends JsonResource
             'content' => $this->content,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'user' => new CommentUserResource($this->user),
+
+            //Limiting serialization to eager loading the user relation with the post
+            'user' => new CommentUserResource($this->whenLoaded('user')),
 
             //Bad practice
             // 'user' => [

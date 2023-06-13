@@ -36,7 +36,8 @@ class PostCommentController extends Controller
         // return $post->comments()->with('user')->get();
 
         //Returning a collection of comments
-        return CommentResource::collection($post->comments);
+        //Eagerly loading
+        return CommentResource::collection($post->comments()->with('user')->get());
 
         //Returning a single comment
         // return new CommentResource($post->comments->first());
