@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\CounterContract;
 use App\Http\Requests\UpdateUser;
 use App\Models\Image;
 use App\Models\User;
@@ -13,7 +14,9 @@ class UserController extends Controller
     private $counter;
     //1 . We use dependency injection here to avoid explicitly 
     //calling the service container
-    public function __construct(Counter $counter)
+
+    //We remove the concretion and depend on the abstraction by the newly created CounterContract interface
+    public function __construct(CounterContract $counter)
     {
         $this->middleware('auth');
         $this->authorizeResource(User::class, 'user');

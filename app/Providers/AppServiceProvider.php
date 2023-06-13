@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Counter;
-
+use App\Services\DummyCounter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -62,6 +62,13 @@ class AppServiceProvider extends ServiceProvider
                 $app->make('Illuminate\Contracts\Session\Session'),
                 env('COUNTER_TIMEOUT'));
         });
+
+        //Here we can switch the concretion we bind the contract
+        $this->app->bind(
+            'App\Contracts\CounterContract',
+            // DummyCounter::class
+            Counter::class
+        );
 
         //Code snippet when we use simple services 
         //and we do not need to use singleton patter

@@ -5,6 +5,8 @@ namespace App\Services;
 // use Illuminate\Support\Facades\Cache;
 
 // Using contracts to utilize dependency injection
+
+use App\Contracts\CounterContract;
 use Illuminate\Contracts\Cache\Factory as Cache;
 use Illuminate\Contracts\Session\Session;
 
@@ -14,7 +16,7 @@ use Illuminate\Contracts\Session\Session;
 //where should be created and what it should be returned
 //and how many paremeters or dependencis to it should be passed
 
-class Counter
+class Counter implements CounterContract
 {
 
     private $timeout;
