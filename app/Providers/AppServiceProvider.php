@@ -59,5 +59,12 @@ class AppServiceProvider extends ServiceProvider
             // return new Counter(5);
             return new Counter(env('COUNTER_TIMEOUT'));
         });
+
+        //Code snippet when we use simple services 
+        //and we do not need to use singleton patter
+
+        // $this->app->when(Counter::class)
+        // ->needs('$timeout')
+        // ->give(env('COUNTER_TIMEOUT'));
     }
 }

@@ -9,11 +9,15 @@ use App\Services\Counter;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
-{
-    public function __construct()
+{   
+    private $counter;
+    //1 . We use dependency injection here to avoid explicitly 
+    //calling the service container
+    public function __construct(Counter $counter)
     {
         $this->middleware('auth');
         $this->authorizeResource(User::class, 'user');
+        $this->counter = $counter;
     }
     /**
      * Display a listing of the resource.
@@ -63,7 +67,8 @@ class UserController extends Controller
 
         return view('users.show', [
             'user' => $user,
-            'counter' => $counter->increment("user-{$user->id}")
+            //2 . We do not need to resolve the for the Counter instance
+            'counter' => $this->counter->increment("user-{$user->id}")
         ]);
     }
 
