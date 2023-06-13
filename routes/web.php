@@ -33,11 +33,11 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'home'])->name('home.index');//->middleware('auth');
+Route::get('/', [HomeController::class, 'home'])->name('home.index'); //->middleware('auth');
 Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
 Route::get('/secret', [HomeController::class, 'secret'])
-->name('secret')
-->middleware('can:home.secret');
+    ->name('secret')
+    ->middleware('can:home.secret');
 
 Route::get('/single', AboutController::class);
 
@@ -45,11 +45,11 @@ Route::resource('posts', PostsController::class);
 
 Route::get('/posts/tag/{tag}', [PostTagController::class, 'index'])->name('posts.tags.index');
 
-Route::resource('posts.comments', PostCommentController::class)->only(['store']);
+Route::resource('posts.comments', PostCommentController::class)->only(['index', 'store']);
 
 Route::resource('users.comments', UserCommentController::class)->only(['store']);
 
-Route::resource('users', UserController::class )->only(['show', 'edit', 'update']);
+Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
 
 // Getting email preview on the browser
 // Route::get('mailable', function () {
@@ -122,4 +122,3 @@ Route::resource('users', UserController::class )->only(['show', 'edit', 'update'
 //     })->name('download');
     
 // });
-

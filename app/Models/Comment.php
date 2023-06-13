@@ -18,6 +18,15 @@ class Comment extends Model
         'content',
     ];
 
+    //Hiding fields that are return to the api
+    protected $hidden = [
+        'deleted_at',
+        'commentable_type',
+        'commentable_id',
+        'user_id'
+
+    ];
+
     //Polymorphic one to many
     public function commentable() {
         return $this->morphTo();

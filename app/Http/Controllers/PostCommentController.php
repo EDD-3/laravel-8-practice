@@ -16,6 +16,26 @@ class PostCommentController extends Controller
         $this->middleware('auth')->only(['store']);
     }
 
+    //Creating an api route
+    public function index(BlogPost $post) {
+        //Laravel converts this into JSON
+
+        //Testing 
+        //Laravel converts the model into a the collection, 
+        //then into json
+        // dump(is_array($post->comments));
+        // dump(get_class($post->comments));
+        // die;
+
+        //Being returned as a collection
+        // return $post->comments;
+
+        //Being returned as a query
+        // return $post->comments();
+
+        return $post->comments()->with('user')->get();
+    }
+
     //Route Model Binding
     public function store(BlogPost $post, StoreComment $request)
     {
