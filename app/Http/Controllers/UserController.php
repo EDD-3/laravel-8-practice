@@ -58,7 +58,8 @@ class UserController extends Controller
         //Using a service to let
         //user how many people are
         //seeing your post
-        $counter = new Counter();
+        //Calling service container
+        $counter = resolve(Counter::class);
 
         return view('users.show', [
             'user' => $user,

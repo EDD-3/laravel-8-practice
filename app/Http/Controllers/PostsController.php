@@ -133,7 +133,10 @@ class PostsController extends Controller
         //Adding a counter on how many users are visiting our website
         //using cache
 
-        $counter = new Counter();
+        //Calling the service container
+        //$counter = new Counter(5);
+        $counter = resolve(Counter::class);
+
 
         return view('posts.show', [
             'post' => $blogPost,
