@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -32,7 +34,13 @@ class Handler extends ExceptionHandler
      * @return void
      */
     public function register()
-    {
+    {   
+        //Handing exceptions when a of specific comment is not found
+        //in CRUD operations
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            return Route::respondWithRoute('api.fallback');
+        });
+
         $this->reportable(function (Throwable $e) {
             //
         });

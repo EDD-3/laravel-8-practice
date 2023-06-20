@@ -39,3 +39,10 @@ Route::prefix('v2')->name('api.v2.')->group( function () {
         return response ()->json(['status' => true]);
     });
 });
+
+//the Fallback route has to the last one defined in the file
+Route::fallback(function () {
+    return response()->json(
+        ['message' => 'Not found'], 404
+    );
+})->name('api.fallback');
