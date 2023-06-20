@@ -21,7 +21,7 @@ class PostCommentController extends Controller
     public function __construct()
     {
         //Adding middleware toke authentication to store method
-        $this->middleware('auth:api')->only(['store']);
+        $this->middleware('auth:api')->only(['store', 'update', 'destroy']);
     }
 
     public function index(BlogPost $post, Request $request)
@@ -47,6 +47,7 @@ class PostCommentController extends Controller
     public function store(BlogPost $post, StoreComment $request)
     {
         //
+        $this->authorize(Comment::class);
         $comment = $post->comments()->create([
             'content' => $request->input('content'),
             'user_id' => $request->user()->id
@@ -65,6 +66,7 @@ class PostCommentController extends Controller
     public function show(BlogPost $post, Comment $comment)
     {
         //
+        $this->authorize($comment);
         return new CommentResource($comment);
     }
 
@@ -78,6 +80,8 @@ class PostCommentController extends Controller
     public function update(BlogPost $post, Comment $comment, StoreComment $request)
     {
         //
+        
+        $this->authorize($comment);
         $comment->content = $request->input('content');
         $comment->save();
 
@@ -93,6 +97,7 @@ class PostCommentController extends Controller
     public function destroy(BlogPost $post, Comment $comment)
     {
         //
+        $this->authorize($comment);
         $comment->delete();
 
         return response()->noContent();
