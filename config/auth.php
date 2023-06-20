@@ -45,6 +45,9 @@ return [
             'driver' => 'token',
             'provider' => 'users',
             'hash' => false,
+            //Customizing the name of the token
+            // 'input_key' => 'token',
+            // 'storage_key' => 'token'
         ],
     ],
 
