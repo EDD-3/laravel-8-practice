@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\PostCommentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,25 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+//Prefixing the api with a version
+//Good practice to have multiple versions of an endpoint
+
+//Laravel < 8.x.x
+// Route::prefix('v1')->name('api.v1.')->group->namespace('Api\V1')( function () {
+
+Route::prefix('v1')->name('api.v1.')->group( function () {
+    Route::get('status',  function () {
+        return response ()->json(['status' => 'OK']);
+    })->name('status');
+
+    //Adding api resource for posts.comments
+    Route::apiResource('posts.comments', PostCommentController::class);
+});
+
+Route::prefix('v2')->name('api.v2.')->group( function () {
+    Route::get('status',  function () {
+        return response ()->json(['status' => true]);
+    });
 });

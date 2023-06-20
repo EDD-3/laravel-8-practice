@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Http\Resources\CommentResource;
 use App\Http\ViewComposers\ActivityComposer;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Counter;
 use App\Services\DummyCounter;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -81,5 +83,13 @@ class AppServiceProvider extends ServiceProvider
         // $this->app->when(Counter::class)
         // ->needs('$timeout')
         // ->give(env('COUNTER_TIMEOUT'));
+
+
+        //Removing the data from json serialization
+        // CommentResource::withoutWrapping();
+
+        //Disabling wrapping from every class that inherits from Resource
+        //Removes data array (not including when we use pagination)
+        JsonResource::withoutWrapping();
     }
 }
