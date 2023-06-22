@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\BlogPost;
 use App\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -17,5 +18,12 @@ abstract class TestCase extends BaseTestCase
         //return factory(User::class)->create();
         //Laravel > 8.00
         return User::factory()->create();
+    }
+
+    protected function blogPost() {
+       return BlogPost::factory()->create(
+            ['user_id' => $this->user()->id]
+        );
+
     }
 }
